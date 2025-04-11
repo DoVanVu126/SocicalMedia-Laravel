@@ -30,7 +30,7 @@
             <a href="#">🔍 Tìm kiếm</a>
             <a href="#">➕ Thêm bài viết</a>
             <a href="#">⭐ Yêu thích</a>
-            <a href="#">🔔 Thông báo</a>
+            <a href="{{ route('notifications.viewAlt') }}">🔔 Thông báo</a>
             <a href="#">👤 User</a>
             <a href="#">⚙️ Cài đặt</a>
     </div>
