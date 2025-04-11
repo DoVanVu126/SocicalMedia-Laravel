@@ -128,9 +128,9 @@
             <div class="post">
                 <div class="post-header">
                     <div class="user-info">
-                        <img src="{{ asset('storage/image/' . ($post->user->ProfilePicture ?? 'default-avatar.png')) }}" alt="Avatar">
+                        <img src="{{ asset('storage/image/' . ($post->user->profilepicture ?? 'default-avatar.png')) }}" alt="Avatar">
                         <div>
-                            <strong>{{ $post->user->Username }}</strong>
+                            <strong>{{ $post->user->username }}</strong>
                             <small>{{ $post->created_at->diffForHumans() }}</small>
                         </div>
                     </div>
@@ -138,7 +138,7 @@
                         <button class="options-btn">⋯</button>
                         <div class="options-menu">
                             <a href="#">📝 Sửa</a>
-                            <form action="{{ route('post.destroy', $post->PostID) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');" style="display: inline;">
+                            <form action="{{ route('post.destroy', $post->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit">🗑️ Xóa</button>
@@ -146,9 +146,9 @@
                         </div>
                     </div>
                 </div>
-                <p>{{ $post->Content }}</p>
-                @if ($post->ImageURL)
-                    <img src="{{ asset('storage/image/' . $post->ImageURL) }}" alt="Ảnh" class="post-image">
+                <p>{{ $post->content }}</p>
+                @if ($post->imageurl)
+                    <img src="{{ asset('storage/image/' . $post->imageurl) }}" alt="Ảnh" class="post-image">
                 @endif
                 <div class="actions">
                     <button>👍 Thích</button>

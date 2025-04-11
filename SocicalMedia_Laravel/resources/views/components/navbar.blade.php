@@ -26,7 +26,7 @@
 <body>
     <div class="sidebar">
             <h3>Social App</h3>
-            <a href="./">🏠 Home</a>
+            <a href="{{ route('home') }}">🏠 Home</a>
             <a href="#">🔍 Tìm kiếm</a>
             <a href="{{ route('post.create') }}">➕ Thêm bài viết</a>
             <a href="#">⭐ Yêu thích</a>
