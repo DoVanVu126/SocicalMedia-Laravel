@@ -13,7 +13,7 @@
         }
 
         .content {
-            margin-left: 260px;
+            margin-left: 500px;
             padding: 40px;
             flex: 1;
             background-color: #fff;
@@ -31,10 +31,7 @@
         textarea,
         input[type="file"] {
             width: 100%;
-            padding: 12px;
             font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
             margin-bottom: 20px;
             background-color: #fdfdfd;
         }
@@ -85,6 +82,8 @@
 
             <label>📷 Chọn ảnh:</label>
             <input type="file" name="image">
+            <label>🎥 Chọn video:</label>
+            <input type="file" name="video" accept="video/mp4,video/x-m4v,video/*">
 
             <button type="submit">Đăng bài</button>
         </form>

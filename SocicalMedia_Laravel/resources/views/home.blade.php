@@ -96,7 +96,7 @@
             color: #444;
         }
         .post img.post-image {
-            width: 100%;
+            width: 40%;
             max-width: 600px;
             height: auto;
             object-fit: cover;
@@ -118,6 +118,20 @@
         .actions button:hover {
             color: #007BFF;
         }
+        .media-wrapper {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.post-image, .post-video {
+    width: 40%;
+    max-width: 600px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
     </style>
 </head>
 <body>
@@ -147,9 +161,20 @@
                     </div>
                 </div>
                 <p>{{ $post->content }}</p>
-                @if ($post->imageurl)
-                    <img src="{{ asset('storage/image/' . $post->imageurl) }}" alt="Ảnh" class="post-image">
-                @endif
+
+                <div class="media-wrapper">
+    @if ($post->imageurl)
+        <img src="{{ asset('storage/image/' . $post->imageurl) }}" alt="Ảnh" class="post-image">
+    @endif
+
+    @if ($post->videourl)
+        <video controls class="post-video">
+            <source src="{{ asset('storage/video/' . $post->videourl) }}" type="video/mp4">
+            Trình duyệt của bạn không hỗ trợ video.
+        </video>
+    @endif
+</div>
+
                 <div class="actions">
                     <button>👍 Thích</button>
                     <button>💬 Bình luận</button>
