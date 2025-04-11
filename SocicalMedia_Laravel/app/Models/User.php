@@ -5,28 +5,28 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
     // 🔧 Khóa chính của bảng Users là UserID
-    protected $primaryKey = 'UserID';
+    protected $primaryKey = 'id';
 
     // 🔧 Nếu bảng không có created_at và updated_at, bỏ timestamps
     public $timestamps = false;
     public function posts()
     {
-        return $this->hasMany(Post::class, 'UserID');
+        return $this->hasMany(Post::class, 'id');
     }
     
     /**
      * Các cột được phép gán dữ liệu hàng loạt
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
         'profilepicture',
