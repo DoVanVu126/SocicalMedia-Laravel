@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
+
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -29,3 +32,7 @@ Route::resource('notifications', NotificationController::class);
 
 Route::get('notifications/delete', [NotificationController::class, 'deleteNotification'])->name('notifications.delete');
 Route::get('/notifications/check-new', [NotificationController::class, 'checkNew'])->name('notifications.check');
+
+Route::get('/posts/create', [PostController::class, 'create'])->name('post.create');
+Route::get('/posts/destroy', [PostController::class, 'destroy'])->name('post.destroy');
+Route::post('/posts/store', [PostController::class, 'store'])->name('post.store');

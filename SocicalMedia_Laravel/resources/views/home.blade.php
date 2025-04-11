@@ -145,6 +145,7 @@
                         <img src="{{ asset('storage/image/' . ($post->user->profilepicture ?? 'default-avatar.png')) }}" alt="Avatar">
                         <div>
                             <strong>{{ $post->user->username }}</strong>
+
                             <small>{{ $post->created_at->diffForHumans() }}</small>
                         </div>
                     </div>
