@@ -54,24 +54,36 @@ class CrudUserController extends Controller
      * User submit form register
      */
     public function postUser(Request $request)
-    {
-        $request->validate([
-            'username' => 'required',
-            'phone' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-        ]);
+{
+    $request->validate([
+        'username' => 'required',
+        'phone' => 'required',
+        'profilepicture' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|min:6',
+    ]);
 
-        $data = $request->all();
-        $check = User::create([
-            'username' => $data['username'],
-            'phone' => $data['phone'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password'])
-        ]);
-
-        return redirect("login");
+    // Xử lý ảnh đại diện
+    if ($request->hasFile('profilepicture')) {
+        $file = $request->file('profilepicture');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('image'), $fileName); // lưu vào public/image
+        $imagePath = 'image/' . $fileName;
+    } else {
+        $imagePath = 'image/default.png'; // ảnh mặc định nếu không upload
     }
+
+    User::create([
+        'username' => $request->username,
+        'phone' => $request->phone,
+        'profilepicture' => $imagePath,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+    ]);
+
+    return redirect("login")->withSuccess('Tài khoản đã được tạo thành công!');
+}
+
 
     /**
      * View user detail page
@@ -116,6 +128,7 @@ class CrudUserController extends Controller
         $request->validate([
             'username' => 'required',
             'phone' => 'required',
+            'profilepicture' => 'required',
             'email' => 'required|email|unique:users,email,' . $input['id'],
             'password' => 'required|min:6',
         ]);
@@ -123,6 +136,7 @@ class CrudUserController extends Controller
         $user = User::find($input['id']);
         $user->username = $input['username'];
         $user->phone = $input['phone'];
+        $user->profilepicture = $input['profilepicture'];
         $user->email = $input['email'];
         $user->password = Hash::make($input['password']);
         $user->save();

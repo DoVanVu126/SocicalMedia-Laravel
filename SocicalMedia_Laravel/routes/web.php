@@ -25,12 +25,10 @@ Route::get('list', [CrudUserController::class, 'listUser'])->name('user.list');
 
 Route::get('signout', [CrudUserController::class, 'signOut'])->name('signout');
 
-// 💡 Route view-alt nên để trước
+
 Route::get('notifications/view-alt', [NotificationController::class, 'viewAlt'])->name('notifications.viewAlt');
 
-// Resource phải để sau để tránh ghi đè
 Route::resource('notifications', NotificationController::class);
 
-// Các route bổ sung khác (nếu cần thiết)
 Route::get('notifications/delete', [NotificationController::class, 'deleteNotification'])->name('notifications.delete');
 Route::get('/notifications/check-new', [NotificationController::class, 'checkNew'])->name('notifications.check');

@@ -11,41 +11,48 @@
         <div class="card shadow rounded-3 p-4" style="width: 600px;">
             <h3 class="text-center fw-bold">Đăng ký tài khoản</h3>
             <div class="card-body">
-                <form action="{{ route('user.postUser') }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Họ và tên</label>
-                        <input type="text" placeholder="Nhập họ và tên" id="username" class="form-control form-control-lg" name="username" required autofocus>
-                        @if ($errors->has('username'))
-                            <span class="text-danger">{{ $errors->first('username') }}</span>
-                        @endif
-                    </div>
+            <form action="{{ route('user.postUser') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <!-- Họ và tên -->
+    <div class="mb-3">
+        <label class="form-label fw-bold">Họ và tên</label>
+        <input type="text" name="username" class="form-control form-control-lg" required>
+        @error('username') <span class="text-danger">{{ $message }}</span> @enderror
+    </div>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">sdt</label>
-                        <input type="text" placeholder="Nhập họ và tên" id="phone" class="form-control form-control-lg" name="phone" required autofocus>
-                        @if ($errors->has('phone'))
-                            <span class="text-danger">{{ $errors->first('phone') }}</span>
-                        @endif
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Email</label>
-                        <input type="email" placeholder="Nhập email" id="email_address" class="form-control form-control-lg" name="email" required>
-                        @if ($errors->has('email'))
-                            <span class="text-danger">{{ $errors->first('email') }}</span>
-                        @endif
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Mật khẩu</label>
-                        <input type="password" placeholder="Nhập mật khẩu" id="password" class="form-control form-control-lg" name="password" required>
-                        @if ($errors->has('password'))
-                            <span class="text-danger">{{ $errors->first('password') }}</span>
-                        @endif
-                    </div>
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg">Tạo tài khoản</button>
-                    </div>
-                </form>
+    <!-- SĐT -->
+    <div class="mb-3">
+        <label class="form-label fw-bold">SĐT</label>
+        <input type="text" name="phone" class="form-control form-control-lg" required>
+        @error('phone') <span class="text-danger">{{ $message }}</span> @enderror
+    </div>
+
+    <!-- Email -->
+    <div class="mb-3">
+        <label class="form-label fw-bold">Email</label>
+        <input type="email" name="email" class="form-control form-control-lg" required>
+        @error('email') <span class="text-danger">{{ $message }}</span> @enderror
+    </div>
+
+    <!-- Mật khẩu -->
+    <div class="mb-3">
+        <label class="form-label fw-bold">Mật khẩu</label>
+        <input type="password" name="password" class="form-control form-control-lg" required>
+        @error('password') <span class="text-danger">{{ $message }}</span> @enderror
+    </div>
+
+    <!-- Ảnh đại diện -->
+    <div class="mb-3">
+        <label class="form-label fw-bold">Ảnh đại diện (Tùy chọn)</label>
+        <input type="file" name="profilepicture" class="form-control form-control-lg">
+        @error('profilepicture') <span class="text-danger">{{ $message }}</span> @enderror
+    </div>
+
+    <!-- Nút submit -->
+    <div class="d-grid">
+        <button type="submit" class="btn btn-primary btn-lg">Tạo tài khoản</button>
+    </div>
+</form>
                 <div class="text-center mt-3">
                     <a href="#" class="text-decoration-none text-primary">Quay lại đăng nhập</a>
                 </div>
