@@ -28,7 +28,7 @@
             <h3>Social App</h3>
             <a href="./">🏠 Home</a>
             <a href="#">🔍 Tìm kiếm</a>
-            <a href="#">➕ Thêm bài viết</a>
+            <a href="{{ route('post.create') }}">➕ Thêm bài viết</a>
             <a href="#">⭐ Yêu thích</a>
             <a href="#">🔔 Thông báo</a>
             <a href="#">👤 User</a>

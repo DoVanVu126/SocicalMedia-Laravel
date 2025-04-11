@@ -9,9 +9,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // Lấy các bài viết mới nhất
-        $posts = Post::with('user')->orderBy('CreatedAt', 'desc')->get();
+        $posts = Post::with('user')
+        ->orderBy('created_at', 'desc') // Sắp xếp giảm dần theo thời gian tạo
+        ->get();
 
         return view('home', compact('posts'));
     }
+
 }

@@ -2,47 +2,118 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Trang chủ - Mạng xã hội</title>
+    <title>Bảng tin</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style>
-        body { margin: 0; font-family: sans-serif; }
-        .container { display: flex; }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f2f2f2;
+        }
+        .container {
+            display: flex;
+        }
         .main {
-            margin-left: 250px;
-            padding: 20px;
+            margin-left: 260px;
+            padding: 30px;
             flex: 1;
-            background: #f4f4f4;
         }
         .post {
-            background: white;
-            margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            background: #fff;
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+        }
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .user-info {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 12px;
         }
         .user-info img {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             object-fit: cover;
+            border: 1px solid #ccc;
+        }
+        .user-info strong {
+            font-size: 16px;
+            color: #333;
+        }
+        .post-options {
+            position: relative;
+        }
+        .options-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+        }
+        .options-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 30px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            min-width: 120px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            z-index: 99;
+        }
+        .options-menu a, .options-menu form button {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+        }
+        .options-menu a:hover, .options-menu form button:hover {
+            background-color: #f6f6f6;
+        }
+        .post small {
+            display: block;
+            margin-top: 5px;
+            color: #888;
+            font-size: 12px;
+        }
+        .post p {
+            margin: 15px 0;
+            line-height: 1.5;
+            font-size: 15px;
+            color: #444;
+        }
+        .post img.post-image {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-top: 10px;
         }
         .actions {
             display: flex;
-            gap: 15px;
-            margin-top: 10px;
+            gap: 25px;
+            margin-top: 15px;
         }
         .actions button {
-            border: none;
             background: none;
+            border: none;
+            color: #444;
+            font-size: 15px;
             cursor: pointer;
-            font-size: 16px;
-            color: #333;
         }
         .actions button:hover {
             color: #007BFF;
@@ -50,37 +121,60 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        @include('components.navbar') {{-- Đây là navbar --}}
-        <div class="main">
-            <h2>Bài viết mới</h2>
-
-            @foreach ($posts as $post)
-                <div class="post">
+<div class="container">
+    @include('components.navbar')
+    <div class="main">
+        @foreach ($posts as $post)
+            <div class="post">
+                <div class="post-header">
                     <div class="user-info">
-                        @if ($post->user->ProfilePicture)
-                            <img src="{{ asset('image/' . $post->user->ProfilePicture) }}" alt="Avatar">
-                        @else
-                            <img src="{{ asset('image/default-avatar.png') }}" alt="Avatar">
-                        @endif
-                        <strong>{{ $post->user->Username }}</strong>
+                        <img src="{{ asset('storage/image/' . ($post->user->ProfilePicture ?? 'default-avatar.png')) }}" alt="Avatar">
+                        <div>
+                            <strong>{{ $post->user->Username }}</strong>
+                            <small>{{ $post->created_at->diffForHumans() }}</small>
+                        </div>
                     </div>
-                    <small>{{ $post->CreatedAt }}</small>
-                    <p>{{ $post->Content }}</p>
-                    @if ($post->ImageURL)
-                        <img src="{{ asset('image/' . $post->ImageURL) }}" alt="Ảnh" width="50%">
-                    @endif
-
-                    {{-- Các nút Like, Comment, Share --}}
-                    <div class="actions">
-                        <button>👍 Like</button>
-                        <button>💬 Comment</button>
-                        <button>🔗 Share</button>
+                    <div class="post-options">
+                        <button class="options-btn">⋯</button>
+                        <div class="options-menu">
+                            <a href="#">📝 Sửa</a>
+                            <form action="{{ route('post.destroy', $post->PostID) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">🗑️ Xóa</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            @endforeach
-
-        </div>
+                <p>{{ $post->Content }}</p>
+                @if ($post->ImageURL)
+                    <img src="{{ asset('storage/image/' . $post->ImageURL) }}" alt="Ảnh" class="post-image">
+                @endif
+                <div class="actions">
+                    <button>👍 Thích</button>
+                    <button>💬 Bình luận</button>
+                    <button>🔗 Chia sẻ</button>
+                </div>
+            </div>
+        @endforeach
     </div>
+</div>
+<script>
+    document.querySelectorAll('.options-btn').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const menu = this.nextElementSibling;
+            document.querySelectorAll('.options-menu').forEach(m => {
+                if (m !== menu) m.style.display = 'none';
+            });
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        });
+    });
+    document.addEventListener('click', () => {
+        document.querySelectorAll('.options-menu').forEach(menu => {
+            menu.style.display = 'none';
+        });
+    });
+</script>
 </body>
 </html>
